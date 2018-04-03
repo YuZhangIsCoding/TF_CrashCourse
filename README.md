@@ -138,7 +138,7 @@ This [Crash Course](https://developers.google.com/machine-learning/crash-course/
     * Convex problem (L0 regularization is non-convex, thus hard to optimize)
     * Encourage sparsity unlike L2
 
-Neural Networks:
+* Neural Networks:
     * Nonlinearity::
         * Relu law: rectify linear unit (max(0, x)), usually a little better than sigmoid
         * Sigmoid
