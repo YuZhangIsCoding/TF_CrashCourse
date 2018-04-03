@@ -200,4 +200,67 @@ Neural Networks:
     * Higher dimensional embedding can more accurately represent the relationship between input values
     * More dimensions increases the chance of overfitting and lowering training efficiency
     * Empirical rule: Dimensions = (possible values)^(1/4)
+    * Embedding as a tool:
+        * Embedding maps items to low-dimensional real vectors in a way that similar items are close to each other
+        * Apply to dense data to create a meaningful similarity metric
+        * Joint embedding diverse data types definea similarity between them
 
+* Categorical data
+    * Most efficiently represented via sparse tensors, which are tensors with very few non-zero elements
+    * Bag-of-word representation
+    * A useful embedding may be on the order of hundreds of dimensions
+    * Word2vec developed by google
+
+* System level component: don't have to build everything
+    * Reuse generic ML code
+    * Google CloudML solutions include Dataflow and TF serving
+    * Components can be found on platforms like Spark, Hadoop, etc
+
+* Staticd vs. Dynamic Training
+    * Static Model - trained offline
+        * Easy to build and test
+        * Still requires monitoring the inputs
+        * Easy to go stale
+    * Dynamic model - trained online
+        * Continue to feed training data over time, regularly sync out updated version
+        * Use progressive validatioin instead of batch training and test
+        * Need monitoring, model rollback & data quarantine capabilities
+        * Adapt to changes, staleness issue avoided
+
+* Offline inference
+    * Make all possible predictions in batch, using a mapreduce or similar
+    * Write to table, then feed these to cache/lookup table
+    * Upside:
+        * Don't need to worry about the cost of inference
+        * Can use batch quota
+        * Post-verification on the training data before pushing
+    * Downside:
+        * Only predict things we know about - bad for long tail
+        * Latency measured in hours or days
+
+* Online inference
+    * Predict on demand, using a server
+    * Upside:
+        * Predict new items as it comes in - great for long tail
+    * Downside:
+        * Compute intensive, latency sensitive - may limit model complexity
+        * Monitoring needs more intensity
+
+* Feature management
+    * Input data determines ML system behavior
+        * We write unit tests for software libraries, what about data?
+    * Care is required when choosing input signal
+        * Maybe even more care than when deciding upon which software libraries to depend
+    * Reliability
+    * Versioning
+    * Necessity
+    * Correlations
+    * Feedback loops
+
+* Machine Learning Guidelinee: [rules of machine learning](https://developers.google.com/machine-learning/rules-of-ml/)
+    * Keep first model simple
+    * Focus on ensuring the pipeline is correct
+    * Use simple and observable metrics for training and validation
+    * Monitor input features
+    * Treat model coonfiguration as code: review it, check it
+    * Documenting, especially failures
